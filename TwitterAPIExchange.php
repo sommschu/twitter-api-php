@@ -67,6 +67,13 @@ class TwitterAPIExchange
     protected $httpStatusCode;
 
     /**
+     * The HTTP Headers from the last response, assoc
+     *
+     * @var array
+     */
+    public $httpRespHeader;
+
+    /**
      * Create the API access object. Requires an array of settings::
      * oauth access token, oauth access token secret, consumer key, consumer secret
      * These are all available by creating your own application on dev.twitter.com
@@ -284,7 +291,7 @@ class TwitterAPIExchange
 
         $options = array(
             CURLOPT_HTTPHEADER => $header,
-            CURLOPT_HEADER => false,
+            CURLOPT_HEADER => true,
             CURLOPT_URL => $this->url,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 10,
@@ -304,8 +311,10 @@ class TwitterAPIExchange
 
         $feed = curl_init();
         curl_setopt_array($feed, $options);
-        $json = curl_exec($feed);
+        $response = curl_exec($feed);
 
+	list($header, $json) = explode("\r\n\r\n", $response, 2);
+	$this->storeHeader($header);
         $this->httpStatusCode = curl_getinfo($feed, CURLINFO_HTTP_CODE);
 
         if (($error = curl_error($feed)) !== '')
@@ -319,6 +328,22 @@ class TwitterAPIExchange
 
         return $json;
     }
+
+    /**
+     * Private method to store response headers into httpResHeader array
+     *
+     * @param string $headerStr
+     */
+    private function storeHeader($headerStr)
+    {
+	$headerArr = explode("\n", $headerStr);
+	foreach ($headerArr as $id => $headerLine)
+	{
+	    list($key, $value) = explode(':', $headerLine, 2);
+	    $this->httpRespHeader[trim($key)] = trim($value);
+	}
+    }
+
 
     /**
      * Private method to generate the base string used by cURL

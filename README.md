@@ -103,3 +103,15 @@ echo $twitter->setGetfield($getfield)
 ```
 
 That is it! Really simple, works great with the 1.1 API. Thanks to @lackovic10 and @rivers on SO!
+
+SommSchu Updates
+----------------
+
+Added public array httpRespHeader, so you can check e.g. your current rate limit from Twitter.
+
+```php
+$x_rate_limit_limit = $twitter->httpRespHeader['x-rate-limit-limit'];
+$x_rate_limit_remaining = $twitter->httpRespHeader['x-rate-limit-remaining'];
+$x_twitter_response-tags = $twitter->httpRespHeader['x-twitter-response-tags'];
+$x-rate-limit-limit = $twitter->httpRespHeader['x-rate-limit-limit'];
+```
