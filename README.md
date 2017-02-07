@@ -112,6 +112,6 @@ Added public array httpRespHeader, so you can check e.g. your current rate limit
 ```php
 $x_rate_limit_limit = $twitter->httpRespHeader['x-rate-limit-limit'];
 $x_rate_limit_remaining = $twitter->httpRespHeader['x-rate-limit-remaining'];
-$x_twitter_response-tags = $twitter->httpRespHeader['x-twitter-response-tags'];
-$x-rate-limit-limit = $twitter->httpRespHeader['x-rate-limit-limit'];
+$x_twitter_response_tags = $twitter->httpRespHeader['x-twitter-response-tags'];
+$x_rate_limit_limit = $twitter->httpRespHeader['x-rate-limit-limit'];
 ```
