@@ -313,7 +313,7 @@ class TwitterAPIExchange
         curl_setopt_array($feed, $options);
         $response = curl_exec($feed);
 
-	list($header, $json) = explode("\r\n\r\n", $response, 2);
+	list($header, $json) = explode("\r\n\r\n", $response, 2);  // yes simple, but will do for me
 	$this->storeHeader($header);
         $this->httpStatusCode = curl_getinfo($feed, CURLINFO_HTTP_CODE);
 
